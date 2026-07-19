@@ -34,7 +34,7 @@
         }
         .envelope-fade {
             opacity: 0;
-            transform: translateY(100px) scale(0.9);
+            transform: translateY(100px) scale(0.95);
             pointer-events: none;
         }
         .card-reveal {
@@ -47,39 +47,31 @@
         .wax-seal {
             box-shadow: 
                 inset 0 0 8px rgba(0,0,0,0.1), 
-                0 4px 10px rgba(0,0,0,0.3);
+                0 4px 15px rgba(0,0,0,0.4);
         }
     </style>
 </head>
 <body class="bg-offwhite text-zinc-800 font-sans antialiased overflow-hidden selection:bg-olive selection:text-white">
 
-    <div id="envelope-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-offwhite transition-all duration-1000">
+    <div id="envelope-screen" class="fixed inset-0 z-50 bg-olive overflow-hidden transition-all duration-1000">
         
-        <div class="relative w-[340px] h-[220px] shadow-2xl cursor-pointer group transition-transform hover:scale-105" onclick="openInvite()">
-            
-            <div class="absolute inset-0 bg-[#4a573e] rounded-sm"></div>
-            
-            <div id="letter" class="absolute left-3 right-3 top-2 bottom-2 bg-white rounded-sm transition-transform duration-700 delay-300 z-0 border border-zinc-100">
-                <div class="absolute top-4 left-0 w-full text-center">
-                    <p class="font-serif text-olive tracking-widest text-xs uppercase">You're Invited</p>
-                </div>
-            </div>
-            
-            <div class="absolute inset-0 w-0 h-0 border-y-[110px] border-x-[170px] border-l-olive border-r-olive border-t-transparent border-b-oliveLight pointer-events-none z-10 rounded-b-sm"></div>
-            
-            <div id="top-flap" class="absolute top-0 left-0 w-0 h-0 border-x-[170px] border-t-[130px] border-x-transparent border-t-oliveDark z-20 origin-top transition-transform duration-700 ease-in-out"></div>
-            
-            <div id="seal" class="absolute left-1/2 top-[125px] -translate-x-1/2 -translate-y-1/2 z-30 w-[70px] h-[70px] bg-[#fdfbf7] rounded-full flex items-center justify-center wax-seal transition-opacity duration-300">
-                <span class="text-gold font-script text-3xl mt-1">N&L</span>
-            </div>
+        <div class="absolute top-0 left-0 w-0 h-full border-y-[50vh] border-l-[50vw] border-y-transparent border-l-[#657556] z-10 pointer-events-none"></div>
+        <div class="absolute top-0 right-0 w-0 h-full border-y-[50vh] border-r-[50vw] border-y-transparent border-r-[#657556] z-10 pointer-events-none"></div>
+        
+        <div class="absolute bottom-0 left-0 w-full h-0 border-x-[50vw] border-b-[60vh] border-x-transparent border-b-olive z-10 pointer-events-none drop-shadow-2xl"></div>
+        
+        <div id="top-flap" class="absolute top-0 left-0 w-full h-0 border-x-[50vw] border-t-[55vh] border-x-transparent border-t-oliveDark z-20 origin-top transition-transform duration-700 ease-in-out"></div>
+        
+        <div id="seal" onclick="openInvite()" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-24 h-24 bg-[#fdfbf7] rounded-full flex items-center justify-center wax-seal cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 group">
+            <span class="text-gold font-script text-4xl mt-2 group-hover:scale-110 transition-transform duration-300">N&L</span>
         </div>
 
-        <p class="absolute bottom-16 text-zinc-400 text-xs tracking-[0.2em] uppercase font-sans">Tap envelope to open</p>
+        <p id="tap-text" class="absolute bottom-12 left-0 w-full text-center text-white/60 text-xs tracking-[0.2em] uppercase font-sans z-30 pointer-events-none transition-opacity duration-300">Tap seal to open</p>
     </div>
 
 
-    <div id="static-graphic" class="fixed bottom-0 left-0 w-full h-[40vh] flex items-end justify-center z-0 opacity-0 transition-opacity duration-1000 delay-500 pointer-events-none">
-        <img src="YOUR_CUSTOM_IMAGE.png" alt="Wedding Graphic" class="w-full max-w-md object-contain drop-shadow-xl">
+    <div id="static-graphic" class="fixed bottom-0 left-0 w-full h-[45vh] flex items-end justify-center z-0 opacity-0 transition-opacity duration-1000 delay-500 pointer-events-none">
+        <img src="YOUR_CUSTOM_IMAGE.webp" alt="Wedding Graphic" class="w-full max-w-md object-contain drop-shadow-2xl">
     </div>
 
     <div id="details-screen" class="relative z-10 h-screen overflow-y-auto opacity-0 translate-y-10 transition-all duration-1000 delay-300 hidden">
@@ -155,7 +147,7 @@
                             </label>
                         </div>
 
-                        <button type="submit" class="w-full bg-olive text-white font-serif tracking-widest uppercase py-4 rounded-lg hover:bg-[#5b6b4d] transition-colors mt-6 text-sm">
+                        <button type="submit" class="w-full bg-olive text-white font-serif tracking-widest uppercase py-4 rounded-lg hover:bg-oliveDark transition-colors mt-6 text-sm">
                             Send Reply
                         </button>
                     </form>
@@ -172,23 +164,19 @@
             const envelopeScreen = document.getElementById('envelope-screen');
             const topFlap = document.getElementById('top-flap');
             const seal = document.getElementById('seal');
-            const letter = document.getElementById('letter');
+            const tapText = document.getElementById('tap-text');
             
             const detailsScreen = document.getElementById('details-screen');
             const staticGraphic = document.getElementById('static-graphic');
             
-            // 1. Fade out the wax seal immediately
+            // 1. Fade out the wax seal and text immediately
             seal.style.opacity = '0';
+            tapText.style.opacity = '0';
             
             // 2. Open the envelope flap in 3D
             topFlap.classList.add('flap-open');
-            
-            // 3. Slide the letter up slightly for effect
-            setTimeout(() => {
-                letter.style.transform = 'translateY(-30px)';
-            }, 300);
 
-            // 4. Drop the whole envelope away and reveal the invite
+            // 3. Drop the whole envelope away and reveal the invite
             setTimeout(() => {
                 envelopeScreen.classList.add('envelope-fade');
                 document.body.classList.remove('overflow-hidden');
@@ -201,7 +189,7 @@
                     staticGraphic.classList.remove('opacity-0');
                 }, 50);
 
-            }, 1000);
+            }, 800);
             
             // Cleanup DOM later
             setTimeout(() => {
