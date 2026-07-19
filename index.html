@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're Invited!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Envelope Animations */
+        .envelope-container {
+            transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+        }
+        .flap {
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out;
+        }
+        .envelope-open .flap {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+        .envelope-open .envelope-container {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(50px);
+        }
+        
+        /* Details Fade In */
+        .details-section {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-in-out 0.4s, transform 0.8s ease-in-out 0.4s;
+        }
+        .show-details {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-zinc-100 flex items-center justify-center min-h-screen text-zinc-800 font-sans">
+
+    <div id="envelope" class="envelope-container fixed inset-0 flex items-center justify-center cursor-pointer z-50 bg-zinc-100" onclick="openEnvelope()">
+        <div class="relative w-80 h-52 bg-white shadow-xl border border-zinc-200 rounded-sm">
+            <div class="flap absolute top-0 left-0 w-0 h-0 border-l-[160px] border-r-[160px] border-t-[100px] border-l-transparent border-r-transparent border-t-zinc-200 z-10"></div>
+            <div class="absolute inset-0 flex items-center justify-center z-20">
+                <div class="w-16 h-16 bg-red-900 rounded-full text-white flex items-center justify-center shadow-md border-2 border-white hover:scale-105 transition-transform">
+                    <span class="text-sm font-serif italic">Open</span>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 w-0 h-0 border-l-[160px] border-r-[160px] border-b-[100px] border-l-transparent border-r-transparent border-b-zinc-100"></div>
+        </div>
+        <p class="absolute bottom-20 text-zinc-500 text-sm tracking-widest uppercase">Tap to open</p>
+    </div>
+
+    <div id="weddingDetails" class="details-section max-w-md w-full bg-white min-h-screen shadow-2xl p-8 absolute top-0">
+        
+        <div class="text-center mt-10 mb-12">
+            <h1 class="text-4xl font-serif text-zinc-900 mb-2">We're Getting Married!</h1>
+            <p class="text-zinc-500 uppercase tracking-widest text-sm">Join us to celebrate</p>
+        </div>
+
+        <div class="space-y-6 text-center border-t border-b border-zinc-200 py-8 mb-12">
+            <div>
+                <h3 class="font-bold text-zinc-900">When</h3>
+                <p class="text-zinc-600">Saturday, October 24th, 2026<br>3:00 PM</p>
+            </div>
+            <div>
+                <h3 class="font-bold text-zinc-900">Where</h3>
+                <p class="text-zinc-600">The Beautiful Estate<br>123 Wedding Lane, City</p>
+            </div>
+            <div>
+                <h3 class="font-bold text-zinc-900">Dress Code</h3>
+                <p class="text-zinc-600">Formal / Black Tie Optional</p>
+            </div>
+        </div>
+
+        <div class="bg-zinc-50 p-6 rounded-lg border border-zinc-200">
+            <h2 class="text-2xl font-serif text-center mb-6">RSVP</h2>
+            
+            <form action="https://formsubmit.co/YOUR_EMAIL@HERE.COM" method="POST" class="space-y-4">
+                
+                <input type="hidden" name="_subject" value="New Wedding RSVP!">
+                <input type="hidden" name="_captcha" value="false">
+                
+                <input type="hidden" name="_cc" value="ORGANIZER_EMAIL@HERE.COM">
+                
+                <div>
+                    <label class="block text-sm font-bold text-zinc-700 mb-1">Guest Name(s)</label>
+                    <input type="text" name="Names" required class="w-full p-2 border border-zinc-300 rounded focus:ring-2 focus:ring-zinc-400 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-zinc-700 mb-1">Bringing a Plus One?</label>
+                    <select name="Plus_One" class="w-full p-2 border border-zinc-300 rounded focus:ring-2 focus:ring-zinc-400 outline-none">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-zinc-700 mb-1">Dietary Requirements</label>
+                    <input type="text" name="Dietary_Requirements" placeholder="e.g. Vegetarian, Gluten-Free, None" class="w-full p-2 border border-zinc-300 rounded focus:ring-2 focus:ring-zinc-400 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-zinc-700 mb-1">Will you be attending?</label>
+                    <div class="flex space-x-4">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="Attending" value="Yes" required class="w-4 h-4 text-zinc-800">
+                            <span>Joyfully Accepts</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="Attending" value="No" class="w-4 h-4 text-zinc-800">
+                            <span>Regretfully Declines</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-zinc-900 text-white font-bold py-3 rounded hover:bg-zinc-700 transition-colors mt-4">
+                    Send RSVP
+                </button>
+            </form>
+        </div>
+        
+        <div class="text-center mt-12 pb-10">
+            <p class="text-zinc-400 text-xs uppercase tracking-widest">Can't wait to see you!</p>
+        </div>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            const details = document.getElementById('weddingDetails');
+            
+            // Add animation classes
+            envelope.classList.add('envelope-open');
+            details.classList.add('show-details');
+            
+            // Scroll back to top just in case
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
