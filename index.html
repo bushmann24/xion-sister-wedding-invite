@@ -17,6 +17,8 @@
                     },
                     colors: {
                         olive: '#6e7f5e',
+                        oliveDark: '#5a6a4c',
+                        oliveLight: '#7a8a69',
                         gold: '#d4af37',
                         offwhite: '#faf9f6'
                     }
@@ -25,54 +27,59 @@
         }
     </script>
     <style>
-        /* Smooth Fade Transitions */
-        .fade-out {
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(1.05);
-            transition: all 0.8s ease-in-out;
+        /* 3D Envelope Animations */
+        .flap-open {
+            transform: rotateX(180deg);
+            z-index: 0 !important;
         }
-        .fade-in {
+        .envelope-fade {
+            opacity: 0;
+            transform: translateY(100px) scale(0.9);
+            pointer-events: none;
+        }
+        .card-reveal {
             opacity: 1 !important;
             transform: translateY(0) !important;
+            pointer-events: auto !important;
         }
         
-        /* 3D Wax Seal Effect */
+        /* Wax Seal Style */
         .wax-seal {
             box-shadow: 
-                inset 0 0 10px rgba(0,0,0,0.1), 
-                0 6px 15px rgba(0,0,0,0.2), 
-                0 0 0 4px #f5f3ec;
-            transition: transform 0.3s ease;
-        }
-        .wax-seal:active {
-            transform: scale(0.95);
-        }
-
-        /* Subtle Background Texture for Envelope */
-        .envelope-bg {
-            background-color: #6e7f5e;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%235b6b4d' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+                inset 0 0 8px rgba(0,0,0,0.1), 
+                0 4px 10px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body class="bg-offwhite text-zinc-800 font-sans antialiased overflow-hidden selection:bg-olive selection:text-white">
 
-    <div id="envelope-screen" class="envelope-bg fixed inset-0 z-50 flex flex-col items-center justify-center transition-all duration-1000 origin-center">
+    <div id="envelope-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-offwhite transition-all duration-1000">
         
-        <button onclick="openInvitation()" class="wax-seal relative w-24 h-24 rounded-full bg-[#fdfbf7] flex items-center justify-center cursor-pointer z-20 group">
-            <span class="text-gold font-script text-4xl mt-2 group-hover:scale-110 transition-transform duration-300">N&L</span>
-        </button>
+        <div class="relative w-[340px] h-[220px] shadow-2xl cursor-pointer group transition-transform hover:scale-105" onclick="openInvite()">
+            
+            <div class="absolute inset-0 bg-[#4a573e] rounded-sm"></div>
+            
+            <div id="letter" class="absolute left-3 right-3 top-2 bottom-2 bg-white rounded-sm transition-transform duration-700 delay-300 z-0 border border-zinc-100">
+                <div class="absolute top-4 left-0 w-full text-center">
+                    <p class="font-serif text-olive tracking-widest text-xs uppercase">You're Invited</p>
+                </div>
+            </div>
+            
+            <div class="absolute inset-0 w-0 h-0 border-y-[110px] border-x-[170px] border-l-olive border-r-olive border-t-transparent border-b-oliveLight pointer-events-none z-10 rounded-b-sm"></div>
+            
+            <div id="top-flap" class="absolute top-0 left-0 w-0 h-0 border-x-[170px] border-t-[130px] border-x-transparent border-t-oliveDark z-20 origin-top transition-transform duration-700 ease-in-out"></div>
+            
+            <div id="seal" class="absolute left-1/2 top-[125px] -translate-x-1/2 -translate-y-1/2 z-30 w-[70px] h-[70px] bg-[#fdfbf7] rounded-full flex items-center justify-center wax-seal transition-opacity duration-300">
+                <span class="text-gold font-script text-3xl mt-1">N&L</span>
+            </div>
+        </div>
 
-        <p class="mt-8 text-white font-script text-3xl tracking-wide opacity-90 drop-shadow-md">This invitation is exclusively for you</p>
-        
-        <p class="absolute bottom-12 text-white/50 text-xs tracking-[0.2em] uppercase font-sans">Tap seal to open</p>
+        <p class="absolute bottom-16 text-zinc-400 text-xs tracking-[0.2em] uppercase font-sans">Tap envelope to open</p>
     </div>
 
 
-    <div id="background-photo" class="fixed bottom-0 left-0 w-full h-[45vh] bg-cover bg-center z-0 opacity-0 transition-opacity duration-1000 delay-500" 
-         style="background-image: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
-         <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+    <div id="static-graphic" class="fixed bottom-0 left-0 w-full h-[40vh] flex items-end justify-center z-0 opacity-0 transition-opacity duration-1000 delay-500 pointer-events-none">
+        <img src="YOUR_CUSTOM_IMAGE.png" alt="Wedding Graphic" class="w-full max-w-md object-contain drop-shadow-xl">
     </div>
 
     <div id="details-screen" class="relative z-10 h-screen overflow-y-auto opacity-0 translate-y-10 transition-all duration-1000 delay-300 hidden">
@@ -156,38 +163,50 @@
             </div>
         </div>
 
-        <div class="h-[35vh] w-full flex items-end justify-center pb-8 pointer-events-none">
-            <p class="text-white text-xs tracking-widest uppercase opacity-70 font-sans shadow-black drop-shadow-md">Can't wait to celebrate</p>
-        </div>
+        <div class="h-[40vh] w-full pointer-events-none"></div>
 
     </div>
 
     <script>
-        function openInvitation() {
-            const envelope = document.getElementById('envelope-screen');
-            const details = document.getElementById('details-screen');
-            const bgPhoto = document.getElementById('background-photo');
+        function openInvite() {
+            const envelopeScreen = document.getElementById('envelope-screen');
+            const topFlap = document.getElementById('top-flap');
+            const seal = document.getElementById('seal');
+            const letter = document.getElementById('letter');
             
-            // 1. Fade out the envelope
-            envelope.classList.add('fade-out');
-            document.body.classList.remove('overflow-hidden'); // Allow scrolling
+            const detailsScreen = document.getElementById('details-screen');
+            const staticGraphic = document.getElementById('static-graphic');
             
-            // 2. Unhide the details section so it can animate in
-            details.classList.remove('hidden');
+            // 1. Fade out the wax seal immediately
+            seal.style.opacity = '0';
             
-            // 3. Trigger the fade-in animations slightly delayed
+            // 2. Open the envelope flap in 3D
+            topFlap.classList.add('flap-open');
+            
+            // 3. Slide the letter up slightly for effect
             setTimeout(() => {
-                details.classList.add('fade-in');
-                bgPhoto.classList.remove('opacity-0');
+                letter.style.transform = 'translateY(-30px)';
             }, 300);
 
-            // 4. Remove envelope from DOM flow after animation finishes to prevent unwanted clicks
+            // 4. Drop the whole envelope away and reveal the invite
             setTimeout(() => {
-                envelope.classList.add('hidden');
+                envelopeScreen.classList.add('envelope-fade');
+                document.body.classList.remove('overflow-hidden');
+                
+                detailsScreen.classList.remove('hidden');
+                
+                // Allow a tiny delay for the 'hidden' class removal to register in the browser
+                setTimeout(() => {
+                    detailsScreen.classList.add('card-reveal');
+                    staticGraphic.classList.remove('opacity-0');
+                }, 50);
+
             }, 1000);
             
-            // Scroll back to top just in case
-            window.scrollTo(0, 0);
+            // Cleanup DOM later
+            setTimeout(() => {
+                envelopeScreen.classList.add('hidden');
+            }, 2000);
         }
     </script>
 </body>
