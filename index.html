@@ -16,10 +16,11 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        olive: '#6e7f5e',
-                        oliveDark: '#5a6a4c',
-                        oliveLight: '#7a8a69',
-                        gold: '#d4af37',
+                        emerald: '#006400',
+                        emeraldDark: '#004b00',
+                        emeraldLight: '#007f00',
+                        goldOrnate: '#b8860b',
+                        goldPattern: 'rgba(184, 134, 11, 0.2)', // Subtler gold for pattern
                         offwhite: '#faf9f6'
                     }
                 }
@@ -27,6 +28,12 @@
         }
     </script>
     <style>
+        /* Repeating Gold Foliage Pattern (Simplistic Sprigs) */
+        .emerald-pattern {
+            background-color: #006400;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='rgba(184, 134, 11, 0.2)' fill-opacity='0.4'%3E%3Cpath d='M10 10c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm20 10c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm-20 20c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm20 10c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zM50 10c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm20 10c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm-20 20c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm20 10c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zM10 50c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm20 10c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm-20 20c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm20 10c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zM50 50c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm20 10c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm-20 20c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6zm20 10c0 4 3 6 5 6s5-2 5-6-3-6-5-6-5 2-5 6z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
         /* 3D Envelope Animations */
         .flap-open {
             transform: rotateX(180deg);
@@ -43,30 +50,32 @@
             pointer-events: auto !important;
         }
         
-        /* Wax Seal Style */
+        /* Ornate Wax Seal Styling */
         .wax-seal {
             box-shadow: 
-                inset 0 0 8px rgba(0,0,0,0.1), 
-                0 4px 15px rgba(0,0,0,0.4);
+                inset 0 0 12px rgba(0,0,0,0.1), 
+                0 6px 20px rgba(0,0,0,0.5),
+                0 0 0 6px #e6c666; /* Inner gold ring */
+            border: 4px solid #b8860b; /* Outer gold ring */
         }
     </style>
 </head>
-<body class="bg-offwhite text-zinc-800 font-sans antialiased overflow-hidden selection:bg-olive selection:text-white">
+<body class="bg-offwhite text-zinc-800 font-sans antialiased overflow-hidden selection:bg-emeraldDark selection:text-white">
 
-    <div id="envelope-screen" class="fixed inset-0 z-50 bg-olive overflow-hidden transition-all duration-1000">
+    <div id="envelope-screen" class="fixed inset-0 z-50 overflow-hidden transition-all duration-1000 emerald-pattern">
         
-        <div class="absolute top-0 left-0 w-0 h-full border-y-[50vh] border-l-[50vw] border-y-transparent border-l-[#657556] z-10 pointer-events-none"></div>
-        <div class="absolute top-0 right-0 w-0 h-full border-y-[50vh] border-r-[50vw] border-y-transparent border-r-[#657556] z-10 pointer-events-none"></div>
+        <div class="absolute top-0 left-0 w-0 h-full border-y-[50vh] border-l-[50vw] border-y-transparent border-l-[#005a00] z-10 pointer-events-none"></div>
+        <div class="absolute top-0 right-0 w-0 h-full border-y-[50vh] border-r-[50vw] border-y-transparent border-r-[#005a00] z-10 pointer-events-none"></div>
         
-        <div class="absolute bottom-0 left-0 w-full h-0 border-x-[50vw] border-b-[60vh] border-x-transparent border-b-olive z-10 pointer-events-none drop-shadow-2xl"></div>
+        <div class="absolute bottom-0 left-0 w-full h-0 border-x-[50vw] border-b-[60vh] border-x-transparent border-b-emerald z-10 pointer-events-none drop-shadow-2xl"></div>
         
-        <div id="top-flap" class="absolute top-0 left-0 w-full h-0 border-x-[50vw] border-t-[55vh] border-x-transparent border-t-oliveDark z-20 origin-top transition-transform duration-700 ease-in-out"></div>
+        <div id="top-flap" class="absolute top-0 left-0 w-full h-0 border-x-[50vw] border-t-[55vh] border-x-transparent border-t-emeraldDark z-20 origin-top transition-transform duration-700 ease-in-out"></div>
         
-        <div id="seal" onclick="openInvite()" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-24 h-24 bg-[#fdfbf7] rounded-full flex items-center justify-center wax-seal cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 group">
-            <span class="text-gold font-script text-4xl mt-2 group-hover:scale-110 transition-transform duration-300">N&L</span>
+        <div id="seal" onclick="openInvite()" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-32 h-32 bg-[#eac96b] rounded-full flex items-center justify-center wax-seal cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 group">
+            <span class="text-goldOrnate font-script text-6xl mt-3 group-hover:scale-110 transition-transform duration-300">N&L</span>
         </div>
 
-        <p id="tap-text" class="absolute bottom-12 left-0 w-full text-center text-white/60 text-xs tracking-[0.2em] uppercase font-sans z-30 pointer-events-none transition-opacity duration-300">Tap seal to open</p>
+        <p id="tap-text" class="absolute bottom-12 left-0 w-full text-center text-white/70 text-xs tracking-[0.2em] uppercase font-sans z-30 pointer-events-none transition-opacity duration-300">Tap seal to open invitation</p>
     </div>
 
 
@@ -80,22 +89,24 @@
             
             <div class="text-center pt-20 px-8">
                 <p class="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-6">We're getting married</p>
-                <h1 class="text-5xl font-serif text-zinc-900 leading-tight mb-4">Nadine <span class="text-3xl font-script text-olive mx-2">&</span> Lucas</h1>
+                <h1 class="text-5xl font-serif text-zinc-900 leading-tight mb-4">
+                    <span class="font-script text-emeraldDark">Nadine</span> & <span class="font-script text-emeraldDark">Lucas</span>
+                </h1>
                 
                 <div class="flex items-center justify-center gap-4 my-8">
                     <div class="h-[1px] w-12 bg-zinc-300"></div>
-                    <div class="w-2 h-2 rotate-45 bg-gold"></div>
+                    <div class="w-2 h-2 rotate-45 bg-goldOrnate"></div>
                     <div class="h-[1px] w-12 bg-zinc-300"></div>
                 </div>
 
-                <p class="text-lg font-serif tracking-widest text-zinc-700">June 14th, 2026</p>
+                <p class="text-lg font-serif tracking-widest text-zinc-700 font-script text-emeraldDark text-2xl">June 14th, 2026</p>
             </div>
 
             <div class="mt-16 px-8 text-center space-y-12">
                 <div>
                     <p class="text-xs uppercase tracking-[0.2em] text-zinc-400 mb-3">The Ceremony</p>
                     <h2 class="text-3xl font-serif text-zinc-900">St. Mary's Church</h2>
-                    <p class="text-gold mt-2 font-serif text-xl">♥</p>
+                    <p class="text-goldOrnate mt-2 font-serif text-xl">♥</p>
                 </div>
 
                 <div>
@@ -121,11 +132,11 @@
                         <input type="hidden" name="_cc" value="ORGANIZER_EMAIL@HERE.COM">
                         
                         <div>
-                            <input type="text" name="Names" placeholder="Guest Name(s)" required class="w-full p-3 bg-transparent border-b border-zinc-300 focus:border-olive outline-none font-sans text-sm transition-colors">
+                            <input type="text" name="Names" placeholder="Guest Name(s)" required class="w-full p-3 bg-transparent border-b border-zinc-300 focus:border-emeraldDark outline-none font-sans text-sm transition-colors">
                         </div>
 
                         <div>
-                            <select name="Plus_One" class="w-full p-3 bg-transparent border-b border-zinc-300 focus:border-olive outline-none font-sans text-sm text-zinc-500 transition-colors">
+                            <select name="Plus_One" class="w-full p-3 bg-transparent border-b border-zinc-300 focus:border-emeraldDark outline-none font-sans text-sm text-zinc-500 transition-colors">
                                 <option value="" disabled selected>Bringing a Plus One?</option>
                                 <option value="No">No</option>
                                 <option value="Yes">Yes</option>
@@ -133,21 +144,21 @@
                         </div>
 
                         <div>
-                            <input type="text" name="Dietary_Requirements" placeholder="Dietary Requirements (e.g. Vegan)" class="w-full p-3 bg-transparent border-b border-zinc-300 focus:border-olive outline-none font-sans text-sm transition-colors">
+                            <input type="text" name="Dietary_Requirements" placeholder="Dietary Requirements (e.g. Vegan)" class="w-full p-3 bg-transparent border-b border-zinc-300 focus:border-emeraldDark outline-none font-sans text-sm transition-colors">
                         </div>
 
                         <div class="pt-4 space-y-3">
-                            <label class="flex items-center space-x-3 cursor-pointer p-3 border border-zinc-200 rounded-lg hover:border-olive transition-colors">
-                                <input type="radio" name="Attending" value="Yes" required class="w-4 h-4 text-olive accent-olive">
+                            <label class="flex items-center space-x-3 cursor-pointer p-3 border border-zinc-200 rounded-lg hover:border-emeraldDark transition-colors">
+                                <input type="radio" name="Attending" value="Yes" required class="w-4 h-4 text-emeraldDark accent-emeraldDark">
                                 <span class="font-serif text-zinc-700">Joyfully Accepts</span>
                             </label>
-                            <label class="flex items-center space-x-3 cursor-pointer p-3 border border-zinc-200 rounded-lg hover:border-olive transition-colors">
-                                <input type="radio" name="Attending" value="No" class="w-4 h-4 text-olive accent-olive">
+                            <label class="flex items-center space-x-3 cursor-pointer p-3 border border-zinc-200 rounded-lg hover:border-emeraldDark transition-colors">
+                                <input type="radio" name="Attending" value="No" class="w-4 h-4 text-emeraldDark accent-emeraldDark">
                                 <span class="font-serif text-zinc-700">Regretfully Declines</span>
                             </label>
                         </div>
 
-                        <button type="submit" class="w-full bg-olive text-white font-serif tracking-widest uppercase py-4 rounded-lg hover:bg-oliveDark transition-colors mt-6 text-sm">
+                        <button type="submit" class="w-full bg-emerald text-white font-serif tracking-widest uppercase py-4 rounded-lg hover:bg-emeraldDark transition-colors mt-6 text-sm">
                             Send Reply
                         </button>
                     </form>
